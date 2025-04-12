@@ -1,0 +1,10 @@
+C:\Users\user\source\repos\vigenere\vigenere\bin\Debug\vigenere.exe.config
+C:\Users\user\source\repos\vigenere\vigenere\bin\Debug\vigenere.exe
+C:\Users\user\source\repos\vigenere\vigenere\bin\Debug\vigenere.pdb
+C:\Users\user\source\repos\vigenere\vigenere\obj\Debug\vigenere.csproj.AssemblyReference.cache
+C:\Users\user\source\repos\vigenere\vigenere\obj\Debug\vigenere.Form1.resources
+C:\Users\user\source\repos\vigenere\vigenere\obj\Debug\vigenere.Properties.Resources.resources
+C:\Users\user\source\repos\vigenere\vigenere\obj\Debug\vigenere.csproj.GenerateResource.cache
+C:\Users\user\source\repos\vigenere\vigenere\obj\Debug\vigenere.csproj.CoreCompileInputs.cache
+C:\Users\user\source\repos\vigenere\vigenere\obj\Debug\vigenere.exe
+C:\Users\user\source\repos\vigenere\vigenere\obj\Debug\vigenere.pdb
