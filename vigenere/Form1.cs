@@ -13,6 +13,11 @@ namespace vigenere
 {
     public partial class Form1 : Form
     {
+        private static readonly char[] LatinLower = "abcdefghijklmnopqrstuvwxyz".ToCharArray();
+        private static readonly char[] LatinUpper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray();
+        private static readonly char[] CyrillicLower = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя".ToCharArray();
+        private static readonly char[] CyrillicUpper = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ".ToCharArray();
+
         public Form1()
         {
             InitializeComponent();
@@ -32,48 +37,150 @@ namespace vigenere
             txtResult.Text = VigenereDecrypt(message, key);
         }
 
-        private string VigenereEncrypt(string text, string key)
+        private static int GetShift(char keyChar)
         {
-            string result = "";
-            int keyIndex = 0;
-            key = key.ToUpper();
-
-            foreach (char c in text)
+            int shift = 0;
+            if (Array.IndexOf(LatinLower, keyChar) != -1)
             {
-                if (char.IsLetter(c))
-                {
-                    char offset = char.IsUpper(c) ? 'A' : 'a';
-                    result += (char)(((c - offset + (key[keyIndex % key.Length] - 'A')) % 26) + offset);
-                    keyIndex++;
-                }
-                else
-                {
-                    result += c;
-                }
+                shift = Array.IndexOf(LatinLower, keyChar) + 1;
             }
-            return result;
+            else if (Array.IndexOf(LatinUpper, keyChar) != -1)
+            {
+                shift = Array.IndexOf(LatinUpper, keyChar) + 1;
+            }
+            else if (Array.IndexOf(CyrillicLower, keyChar) != -1)
+            {
+                shift = Array.IndexOf(CyrillicLower, keyChar) + 1;
+            }
+            else if (Array.IndexOf(CyrillicUpper, keyChar) != -1)
+            {
+                shift = Array.IndexOf(CyrillicUpper, keyChar) + 1;
+            }
+            return shift;
         }
 
-        private string VigenereDecrypt(string text, string key)
+        private static string VigenereEncrypt(string text, string key)
         {
-            string result = "";
-            int keyIndex = 0;
-            key = key.ToUpper();
-
-            foreach (char c in text)
+            try
             {
-                if (char.IsLetter(c))
+                if (string.IsNullOrEmpty(key))
+                    throw new ArgumentException("Key cannot be null or empty.", nameof(key));
+
+                StringBuilder result = new StringBuilder();
+                int keyIndex = 0;
+
+                foreach (char ch in text)
                 {
-                    char offset = char.IsUpper(c) ? 'A' : 'a';
-                    result += (char)(((c - offset - (key[keyIndex % key.Length] - 'A') + 26) % 26) + offset);
-                    keyIndex++;
+                    if (Array.IndexOf(LatinLower, ch) != -1)
+                    {
+                        int alphaLen = LatinLower.Length;
+                        int currentIndex = Array.IndexOf(LatinLower, ch);
+                        int shift = GetShift(key[keyIndex % key.Length]);
+                        int newIndex = (currentIndex + shift) % alphaLen;
+                        result.Append(LatinLower[newIndex]);
+                        keyIndex++;
+                    }
+                    else if (Array.IndexOf(LatinUpper, ch) != -1)
+                    {
+                        int alphaLen = LatinUpper.Length;
+                        int currentIndex = Array.IndexOf(LatinUpper, ch);
+                        int shift = GetShift(key[keyIndex % key.Length]);
+                        int newIndex = (currentIndex + shift) % alphaLen;
+                        result.Append(LatinUpper[newIndex]);
+                        keyIndex++;
+                    }
+                    else if (Array.IndexOf(CyrillicLower, ch) != -1)
+                    {
+                        int alphaLen = CyrillicLower.Length;
+                        int currentIndex = Array.IndexOf(CyrillicLower, ch);
+                        int shift = GetShift(key[keyIndex % key.Length]);
+                        int newIndex = (currentIndex + shift) % alphaLen;
+                        result.Append(CyrillicLower[newIndex]);
+                        keyIndex++;
+                    }
+                    else if (Array.IndexOf(CyrillicUpper, ch) != -1)
+                    {
+                        int alphaLen = CyrillicUpper.Length;
+                        int currentIndex = Array.IndexOf(CyrillicUpper, ch);
+                        int shift = GetShift(key[keyIndex % key.Length]);
+                        int newIndex = (currentIndex + shift) % alphaLen;
+                        result.Append(CyrillicUpper[newIndex]);
+                        keyIndex++;
+                    }
+                    else
+                    {
+                        result.Append(ch);
+                    }
                 }
-                else
-                {
-                    result += c;
-                }
+                return result.ToString();
             }
-            return result;
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка");
+                return "";
+            }
+        }
+
+        private static string VigenereDecrypt(string text, string key)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(key))
+                    throw new ArgumentException("Key cannot be null or empty.", nameof(key));
+
+                StringBuilder result = new StringBuilder();
+                int keyIndex = 0;
+
+                foreach (char ch in text)
+                {
+                    if (Array.IndexOf(LatinLower, ch) != -1)
+                    {
+                        int alphaLen = LatinLower.Length;
+                        int currentIndex = Array.IndexOf(LatinLower, ch);
+                        int shift = GetShift(key[keyIndex % key.Length]);
+                        int newIndex = (currentIndex - shift + alphaLen) % alphaLen;
+                        result.Append(LatinLower[newIndex]);
+                        keyIndex++;
+                    }
+                    else if (Array.IndexOf(LatinUpper, ch) != -1)
+                    {
+                        int alphaLen = LatinUpper.Length;
+                        int currentIndex = Array.IndexOf(LatinUpper, ch);
+                        int shift = GetShift(key[keyIndex % key.Length]);
+                        int newIndex = (currentIndex - shift + alphaLen) % alphaLen;
+                        result.Append(LatinUpper[newIndex]);
+                        keyIndex++;
+                    }
+                    else if (Array.IndexOf(CyrillicLower, ch) != -1)
+                    {
+                        int alphaLen = CyrillicLower.Length;
+                        int currentIndex = Array.IndexOf(CyrillicLower, ch);
+                        int shift = GetShift(key[keyIndex % key.Length]);
+                        int newIndex = (currentIndex - shift + alphaLen) % alphaLen;
+                        result.Append(CyrillicLower[newIndex]);
+                        keyIndex++;
+                    }
+                    else if (Array.IndexOf(CyrillicUpper, ch) != -1)
+                    {
+                        int alphaLen = CyrillicUpper.Length;
+                        int currentIndex = Array.IndexOf(CyrillicUpper, ch);
+                        int shift = GetShift(key[keyIndex % key.Length]);
+                        int newIndex = (currentIndex - shift + alphaLen) % alphaLen;
+                        result.Append(CyrillicUpper[newIndex]);
+                        keyIndex++;
+                    }
+                    else
+                    {
+                        result.Append(ch);
+                    }
+                }
+                return result.ToString();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка");
+                return "";
+            }
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -150,6 +257,11 @@ namespace vigenere
                     MessageBox.Show("Error saving file: " + ex.Message);
                 }
             }
+        }
+
+        private void btnGuide_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Шифр Виженера\n\nДля шифрования текста используется текст-\"ключ\", на основе которого сдвигаются символы текста. Дешифровать текст возможно только при наличии ключа, которым он был шифрован. Ключ может быть произвольным текстом любого размера.\n\nПример: для текста \"Привет\" и ключа \"абв\" выводится результат \"Ртлгжх\". Ключ повторяется на всю длину текста - \"абвабв\" - и каждый символ текста сдвигается по алфавиту в зависимости от символа ключа на этой позиции. \"а\" - сдвиг на 1 символ вперёд, \"б\" - сдвиг на 2, \"в\" - на 3.\n\nТекст, который вы хотите (де)шифровать, вводится в \"поле ввода\". Ключ вводится в поле \"ключ\". При нажатии кнопок шифрования или дешифрования результат выводится в поле \"результат\".\n\nКнопки загрузки и сохранения находятся рядом с полем ввода и полем результата соответственно, и позволяют: \n1. Выбирать текстовый файл, чтобы загрузить его текст в поле ввода\n2. Сохранить текст из поля результата в текстовый файл", "Справка");
         }
     }
 }

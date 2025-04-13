@@ -108,6 +108,13 @@
     <None Include="Resources\button.png" />
     <None Include="Resources\button_type2.png" />
     <None Include="Resources\button_type21.png" />
+    <None Include="Resources\bg_3.png" />
+    <None Include="Resources\button_4.png" />
+    <None Include="Resources\Download_icon_smooth.png" />
+    <None Include="Resources\Upload_icon_smooth.png" />
+    <None Include="Resources\bg_31.png" />
+    <None Include="Resources\Upload_icon_smooth1.png" />
+    <None Include="Resources\q.png" />
     <Content Include="строка_ввода.png" />
   </ItemGroup>
   <ItemGroup>
