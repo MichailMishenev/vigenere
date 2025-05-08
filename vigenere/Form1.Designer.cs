@@ -237,6 +237,7 @@
             // 
             // comboBox1
             // 
+            this.comboBox1.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.comboBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Items.AddRange(new object[] {
@@ -245,9 +246,10 @@
             "Атбаш"});
             this.comboBox1.Location = new System.Drawing.Point(328, 13);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(146, 39);
+            this.comboBox1.Size = new System.Drawing.Size(176, 39);
             this.comboBox1.TabIndex = 16;
             this.comboBox1.Text = "Виженер";
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // Form1
             // 
@@ -266,6 +268,7 @@
             this.MinimumSize = new System.Drawing.Size(810, 502);
             this.Name = "Form1";
             this.Text = "Шифровальщик";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Form1_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();

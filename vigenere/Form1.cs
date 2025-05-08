@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Reflection;
 
 namespace vigenere
 {
@@ -18,23 +19,76 @@ namespace vigenere
         private static readonly char[] CyrillicLower = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя".ToCharArray();
         private static readonly char[] CyrillicUpper = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ".ToCharArray();
 
+        public string cypherMode = "vigenere"; 
+
         public Form1()
         {
             InitializeComponent();
+
+            // Turn on all the styles we need:
+            this.SetStyle(ControlStyles.UserPaint              // we handle all painting
+                          | ControlStyles.AllPaintingInWmPaint // paint in WM_PAINT only
+                          | ControlStyles.OptimizedDoubleBuffer // double buffer
+                          | ControlStyles.ResizeRedraw,        // redraw on resize
+                          true);
+            this.UpdateStyles();
+
+            // And also for the TableLayoutPanel specifically:
+            tableLayoutPanel1.GetType()
+                .GetProperty("DoubleBuffered", BindingFlags.NonPublic | BindingFlags.Instance)
+                .SetValue(tableLayoutPanel1, true, null);
         }
 
         private void btnEncrypt_Click(object sender, EventArgs e)
         {
             string message = txtMessage.Text;
             string key = txtKey.Text;
-            txtResult.Text = VigenereEncrypt(message, key);
+            try
+            {
+                switch (cypherMode)
+                {
+                    case "vigenere":
+                        txtResult.Text = VigenereEncrypt(message, key);
+                        break;
+                    case "caesar":
+                        int shift = int.Parse(key);
+                        txtResult.Text = CaesarEncrypt(message, shift);
+                        break;
+                    case "atbash":
+                        txtResult.Text = AtbashTransform(message);
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка");
+            }
         }
 
         private void btnDecrypt_Click(object sender, EventArgs e)
         {
             string message = txtMessage.Text;
             string key = txtKey.Text;
-            txtResult.Text = VigenereDecrypt(message, key);
+            try
+            {
+                switch (cypherMode)
+                {
+                    case "vigenere":
+                        txtResult.Text = VigenereDecrypt(message, key);
+                        break;
+                    case "caesar":
+                        int shift = int.Parse(key);
+                        txtResult.Text = CaesarDecrypt(message, shift);
+                        break;
+                    case "atbash":
+                        txtResult.Text = AtbashTransform(message);
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка");
+            }
         }
 
         private static int GetShift(char keyChar)
@@ -111,9 +165,6 @@ namespace vigenere
                 }
             }
             return result.ToString();
-
-                //MessageBox.Show(ex.Message, "Ошибка");
-
         }
 
         private static string VigenereDecrypt(string text, string key)
@@ -337,7 +388,45 @@ namespace vigenere
 
         private void btnGuide_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Шифр Виженера\n\nДля шифрования текста используется текст-\"ключ\", на основе которого сдвигаются символы текста. Дешифровать текст возможно только при наличии ключа, которым он был шифрован. Ключ может быть произвольным текстом любого размера.\n\nПример: для текста \"Привет\" и ключа \"абв\" выводится результат \"Ртлгжх\". Ключ повторяется на всю длину текста - \"абвабв\" - и каждый символ текста сдвигается по алфавиту в зависимости от символа ключа на этой позиции. \"а\" - сдвиг на 1 символ вперёд, \"б\" - сдвиг на 2, \"в\" - на 3.\n\nТекст, который вы хотите (де)шифровать, вводится в \"поле ввода\". Ключ вводится в поле \"ключ\". При нажатии кнопок шифрования или дешифрования результат выводится в поле \"результат\".\n\nКнопки загрузки и сохранения находятся рядом с полем ввода и полем результата соответственно, и позволяют: \n1. Выбирать текстовый файл, чтобы загрузить его текст в поле ввода\n2. Сохранить текст из поля результата в текстовый файл", "Справка");
+            switch (cypherMode)
+            {
+                case "vigenere":
+                    MessageBox.Show("Шифр Виженера\n\nДля шифрования текста используется текст-\"ключ\", на основе которого сдвигаются символы текста. Дешифровать текст возможно только при наличии ключа, которым он был шифрован. Ключ может быть произвольным текстом любого размера.\n\nПример: для текста \"Привет\" и ключа \"абв\" выводится результат \"Ртлгжх\". Ключ повторяется на всю длину текста - \"абвабв\" - и каждый символ текста сдвигается по алфавиту в зависимости от символа ключа на этой позиции. \"а\" - сдвиг на 1 символ вперёд, \"б\" - сдвиг на 2, \"в\" - на 3.\n\nТекст, который вы хотите (де)шифровать, вводится в \"поле ввода\". Ключ вводится в поле \"ключ\". При нажатии кнопок шифрования или дешифрования результат выводится в поле \"результат\".\n\nКнопки загрузки и сохранения находятся рядом с полем ввода и полем результата соответственно, и позволяют: \n1. Выбирать текстовый файл, чтобы загрузить его текст в поле ввода\n2. Сохранить текст из поля результата в текстовый файл", "Справка");
+                    break;
+                case "caesar":
+                    MessageBox.Show("Шифр Цезаря\n\nКаждый символ текста сдвигается по алфавиту на основе \"сдвига\". Сдвиг может быть только числом. Пример: для текста \"Привет\" и сдвига \"3\" выводится результат \"Тулеих\". Каждая буква сдвинулась вправо по алфавиту на три шага: П -> Р -> С -> Т, Р -> С -> Т -> У, и так далее.\n\nТекст, который вы хотите (де)шифровать, вводится в \"поле ввода\". Сдвиг вводится в поле \"сдвиг\". При нажатии кнопок шифрования или дешифрования результат выводится в поле \"результат\".\n\nКнопки загрузки и сохранения находятся рядом с полем ввода и полем результата соответственно, и позволяют: \n1. Выбирать текстовый файл, чтобы загрузить его текст в поле ввода\n2. Сохранить текст из поля результата в текстовый файл", "Справка");
+                    break;
+                case "atbash":
+                    MessageBox.Show("Шифр Атбаш\n\nДля шифра Атбаш не существует разницы между шифрованием и дешифрованием. Каждый символ текста заменяется на его эквивалент в алфавите, идущим в противоположную сторону.\n\nПример: текст \"Привет\" превращается в \"Рпчэън\", а текст \"АБЮЯ\" превращается в \"ЯЮБА\".\n\nТекст, который вы хотите (де)шифровать, вводится в \"поле ввода\". При нажатии кнопок шифрования или дешифрования результат выводится в поле \"результат\".\n\nКнопки загрузки и сохранения находятся рядом с полем ввода и полем результата соответственно, и позволяют: \n1. Выбирать текстовый файл, чтобы загрузить его текст в поле ввода\n2. Сохранить текст из поля результата в текстовый файл", "Справка");
+                    break;
+            }
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (comboBox1.Text)
+            {
+                case "Виженер":
+                    cypherMode = "vigenere";
+                    label4.Visible = true;
+                    label4.Text = "Ключ:";
+                    btnDecrypt.Visible = true;
+                    txtKey.Visible = true;
+                    break;
+                case "Цезарь":
+                    cypherMode = "caesar";
+                    label4.Visible = true;
+                    label4.Text = "Сдвиг:";
+                    btnDecrypt.Visible = true;
+                    txtKey.Visible = true;
+                    break;
+                case "Атбаш":
+                    cypherMode = "atbash";
+                    label4.Visible = false;
+                    btnDecrypt.Visible = false;
+                    txtKey.Visible = false;
+                    break;
+            }
         }
     }
 }
