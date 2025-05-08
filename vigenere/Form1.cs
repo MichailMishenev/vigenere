@@ -61,126 +61,202 @@ namespace vigenere
 
         private static string VigenereEncrypt(string text, string key)
         {
-            try
+            if (string.IsNullOrEmpty(key))
+                throw new ArgumentException("Key cannot be null or empty.", nameof(key));
+
+            StringBuilder result = new StringBuilder();
+            int keyIndex = 0;
+
+            foreach (char ch in text)
             {
-                if (string.IsNullOrEmpty(key))
-                    throw new ArgumentException("Key cannot be null or empty.", nameof(key));
-
-                StringBuilder result = new StringBuilder();
-                int keyIndex = 0;
-
-                foreach (char ch in text)
+                if (Array.IndexOf(LatinLower, ch) != -1)
                 {
-                    if (Array.IndexOf(LatinLower, ch) != -1)
-                    {
-                        int alphaLen = LatinLower.Length;
-                        int currentIndex = Array.IndexOf(LatinLower, ch);
-                        int shift = GetShift(key[keyIndex % key.Length]);
-                        int newIndex = (currentIndex + shift) % alphaLen;
-                        result.Append(LatinLower[newIndex]);
-                        keyIndex++;
-                    }
-                    else if (Array.IndexOf(LatinUpper, ch) != -1)
-                    {
-                        int alphaLen = LatinUpper.Length;
-                        int currentIndex = Array.IndexOf(LatinUpper, ch);
-                        int shift = GetShift(key[keyIndex % key.Length]);
-                        int newIndex = (currentIndex + shift) % alphaLen;
-                        result.Append(LatinUpper[newIndex]);
-                        keyIndex++;
-                    }
-                    else if (Array.IndexOf(CyrillicLower, ch) != -1)
-                    {
-                        int alphaLen = CyrillicLower.Length;
-                        int currentIndex = Array.IndexOf(CyrillicLower, ch);
-                        int shift = GetShift(key[keyIndex % key.Length]);
-                        int newIndex = (currentIndex + shift) % alphaLen;
-                        result.Append(CyrillicLower[newIndex]);
-                        keyIndex++;
-                    }
-                    else if (Array.IndexOf(CyrillicUpper, ch) != -1)
-                    {
-                        int alphaLen = CyrillicUpper.Length;
-                        int currentIndex = Array.IndexOf(CyrillicUpper, ch);
-                        int shift = GetShift(key[keyIndex % key.Length]);
-                        int newIndex = (currentIndex + shift) % alphaLen;
-                        result.Append(CyrillicUpper[newIndex]);
-                        keyIndex++;
-                    }
-                    else
-                    {
-                        result.Append(ch);
-                    }
+                    int alphaLen = LatinLower.Length;
+                    int currentIndex = Array.IndexOf(LatinLower, ch);
+                    int shift = GetShift(key[keyIndex % key.Length]);
+                    int newIndex = (currentIndex + shift) % alphaLen;
+                    result.Append(LatinLower[newIndex]);
+                    keyIndex++;
                 }
-                return result.ToString();
+                else if (Array.IndexOf(LatinUpper, ch) != -1)
+                {
+                    int alphaLen = LatinUpper.Length;
+                    int currentIndex = Array.IndexOf(LatinUpper, ch);
+                    int shift = GetShift(key[keyIndex % key.Length]);
+                    int newIndex = (currentIndex + shift) % alphaLen;
+                    result.Append(LatinUpper[newIndex]);
+                    keyIndex++;
+                }
+                else if (Array.IndexOf(CyrillicLower, ch) != -1)
+                {
+                    int alphaLen = CyrillicLower.Length;
+                    int currentIndex = Array.IndexOf(CyrillicLower, ch);
+                    int shift = GetShift(key[keyIndex % key.Length]);
+                    int newIndex = (currentIndex + shift) % alphaLen;
+                    result.Append(CyrillicLower[newIndex]);
+                    keyIndex++;
+                }
+                else if (Array.IndexOf(CyrillicUpper, ch) != -1)
+                {
+                    int alphaLen = CyrillicUpper.Length;
+                    int currentIndex = Array.IndexOf(CyrillicUpper, ch);
+                    int shift = GetShift(key[keyIndex % key.Length]);
+                    int newIndex = (currentIndex + shift) % alphaLen;
+                    result.Append(CyrillicUpper[newIndex]);
+                    keyIndex++;
+                }
+                else
+                {
+                    result.Append(ch);
+                }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Ошибка");
-                return "";
-            }
+            return result.ToString();
+
+                //MessageBox.Show(ex.Message, "Ошибка");
+
         }
 
         private static string VigenereDecrypt(string text, string key)
         {
-            try
+            if (string.IsNullOrEmpty(key))
+                throw new ArgumentException("Key cannot be null or empty.", nameof(key));
+
+            StringBuilder result = new StringBuilder();
+            int keyIndex = 0;
+
+            foreach (char ch in text)
             {
-                if (string.IsNullOrEmpty(key))
-                    throw new ArgumentException("Key cannot be null or empty.", nameof(key));
-
-                StringBuilder result = new StringBuilder();
-                int keyIndex = 0;
-
-                foreach (char ch in text)
+                if (Array.IndexOf(LatinLower, ch) != -1)
                 {
-                    if (Array.IndexOf(LatinLower, ch) != -1)
+                    int alphaLen = LatinLower.Length;
+                    int currentIndex = Array.IndexOf(LatinLower, ch);
+                    int shift = GetShift(key[keyIndex % key.Length]);
+                    int newIndex = (currentIndex - shift + alphaLen) % alphaLen;
+                    result.Append(LatinLower[newIndex]);
+                    keyIndex++;
+                }
+                else if (Array.IndexOf(LatinUpper, ch) != -1)
+                {
+                    int alphaLen = LatinUpper.Length;
+                    int currentIndex = Array.IndexOf(LatinUpper, ch);
+                    int shift = GetShift(key[keyIndex % key.Length]);
+                    int newIndex = (currentIndex - shift + alphaLen) % alphaLen;
+                    result.Append(LatinUpper[newIndex]);
+                    keyIndex++;
+                }
+                else if (Array.IndexOf(CyrillicLower, ch) != -1)
+                {
+                    int alphaLen = CyrillicLower.Length;
+                    int currentIndex = Array.IndexOf(CyrillicLower, ch);
+                    int shift = GetShift(key[keyIndex % key.Length]);
+                    int newIndex = (currentIndex - shift + alphaLen) % alphaLen;
+                    result.Append(CyrillicLower[newIndex]);
+                    keyIndex++;
+                }
+                else if (Array.IndexOf(CyrillicUpper, ch) != -1)
+                {
+                    int alphaLen = CyrillicUpper.Length;
+                    int currentIndex = Array.IndexOf(CyrillicUpper, ch);
+                    int shift = GetShift(key[keyIndex % key.Length]);
+                    int newIndex = (currentIndex - shift + alphaLen) % alphaLen;
+                    result.Append(CyrillicUpper[newIndex]);
+                    keyIndex++;
+                }
+                else
+                {
+                    result.Append(ch);
+                }
+            }
+            return result.ToString();
+        }
+
+        public static string CaesarEncrypt(string input, int shift)
+        {
+            return Transform(input, shift);
+        }
+
+        public static string CaesarDecrypt(string input, int shift)
+        {
+            return Transform(input, -shift);
+        }
+
+        private static string Transform(string input, int shift)
+        {
+            var result = new System.Text.StringBuilder();
+
+            foreach (char ch in input)
+            {
+                if (char.IsLetter(ch))
+                {
+                    bool isUpper = char.IsUpper(ch);
+                    char baseChar = GetAlphabetBase(ch);
+
+                    int alphabetSize = GetAlphabetSize(ch);
+                    if (baseChar != '\0')
                     {
-                        int alphaLen = LatinLower.Length;
-                        int currentIndex = Array.IndexOf(LatinLower, ch);
-                        int shift = GetShift(key[keyIndex % key.Length]);
-                        int newIndex = (currentIndex - shift + alphaLen) % alphaLen;
-                        result.Append(LatinLower[newIndex]);
-                        keyIndex++;
-                    }
-                    else if (Array.IndexOf(LatinUpper, ch) != -1)
-                    {
-                        int alphaLen = LatinUpper.Length;
-                        int currentIndex = Array.IndexOf(LatinUpper, ch);
-                        int shift = GetShift(key[keyIndex % key.Length]);
-                        int newIndex = (currentIndex - shift + alphaLen) % alphaLen;
-                        result.Append(LatinUpper[newIndex]);
-                        keyIndex++;
-                    }
-                    else if (Array.IndexOf(CyrillicLower, ch) != -1)
-                    {
-                        int alphaLen = CyrillicLower.Length;
-                        int currentIndex = Array.IndexOf(CyrillicLower, ch);
-                        int shift = GetShift(key[keyIndex % key.Length]);
-                        int newIndex = (currentIndex - shift + alphaLen) % alphaLen;
-                        result.Append(CyrillicLower[newIndex]);
-                        keyIndex++;
-                    }
-                    else if (Array.IndexOf(CyrillicUpper, ch) != -1)
-                    {
-                        int alphaLen = CyrillicUpper.Length;
-                        int currentIndex = Array.IndexOf(CyrillicUpper, ch);
-                        int shift = GetShift(key[keyIndex % key.Length]);
-                        int newIndex = (currentIndex - shift + alphaLen) % alphaLen;
-                        result.Append(CyrillicUpper[newIndex]);
-                        keyIndex++;
+                        int offset = ch - baseChar;
+                        int newOffset = (offset + shift + alphabetSize) % alphabetSize;
+                        char shiftedChar = (char)(baseChar + newOffset);
+                        result.Append(shiftedChar);
                     }
                     else
                     {
-                        result.Append(ch);
+                        result.Append(ch); // unrecognized alphabet
                     }
                 }
-                return result.ToString();
+                else
+                {
+                    result.Append(ch); // non-letter characters remain unchanged
+                }
             }
-            catch (Exception ex)
+
+            return result.ToString();
+        }
+
+        private static char GetAlphabetBase(char ch)
+        {
+            if (ch >= 'A' && ch <= 'Z') return 'A';
+            if (ch >= 'a' && ch <= 'z') return 'a';
+            if (ch >= 'А' && ch <= 'Я') return 'А';
+            if (ch >= 'а' && ch <= 'я') return 'а';
+            return '\0'; // unsupported
+        }
+
+        private static int GetAlphabetSize(char ch)
+        {
+            if ((ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z')) return 26;
+            if ((ch >= 'А' && ch <= 'Я') || (ch >= 'а' && ch <= 'я')) return 32;
+            return 0;
+        }
+
+        public static string AtbashTransform(string input)
+        {
+            var result = new System.Text.StringBuilder();
+
+            foreach (char ch in input)
             {
-                MessageBox.Show(ex.Message, "Ошибка");
-                return "";
+                if (char.IsLetter(ch))
+                {
+                    char transformed = TransformChar(ch);
+                    result.Append(transformed);
+                }
+                else
+                {
+                    result.Append(ch);
+                }
             }
+
+            return result.ToString();
+        }
+
+        private static char TransformChar(char ch)
+        {
+            if (ch >= 'A' && ch <= 'Z') return (char)('Z' - (ch - 'A'));
+            if (ch >= 'a' && ch <= 'z') return (char)('z' - (ch - 'a'));
+            if (ch >= 'А' && ch <= 'Я') return (char)('Я' - (ch - 'А'));
+            if (ch >= 'а' && ch <= 'я') return (char)('я' - (ch - 'а'));
+
+            return ch; // unhandled characters
         }
 
         private void label1_Click(object sender, EventArgs e)
