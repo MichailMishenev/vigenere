@@ -1,31 +1,31 @@
-namespace vigenere.Tests
+ï»¿namespace vigenere.Tests
 {
     public class VigenereTests
     {
         [Fact]
         public void VigenereTest()
         {
-            string message = "Ïğèâåò! Hello!";
-            string key = "àáâabc";
+            string message = "ĞŸÑ€Ğ¸Ğ²ĞµÑ‚! Hello!";
+            string key = "Ğ°Ğ±Ğ²abc";
             string result = Crypt.VigenereEncrypt(message, key);
-            Assert.Equal("Ğòëãæõ! Igomq!", result);
+            Assert.Equal("Ğ Ñ‚Ğ»Ğ³Ğ¶Ñ…! Igomq!", result);
             Assert.Equal(message, Crypt.VigenereDecrypt(result, key));
         }
         [Fact]
         public void CaesarTest()
         {
-            string message = "Ïğèâåò! Hello!";
+            string message = "ĞŸÑ€Ğ¸Ğ²ĞµÑ‚! Hello!";
             int shift = 3;
             string result = Crypt.CaesarEncrypt(message, shift);
-            Assert.Equal("Òóëåèõ! Khoor!", result);
+            Assert.Equal("Ğ¢ÑƒĞ»ĞµĞ¸Ñ…! Khoor!", result);
             Assert.Equal(message, Crypt.CaesarDecrypt(result, shift));
         }
         [Fact]
         public void AtbashTest()
         {
-            string message = "Ïğèâåò! Hello!";
+            string message = "ĞŸÑ€Ğ¸Ğ²ĞµÑ‚! Hello!";
             string result = Crypt.AtbashTransform(message);
-            Assert.Equal("Ğï÷ıúí! Svool!", result);
+            Assert.Equal("Ğ Ğ¿Ñ‡ÑÑŠĞ½! Svool!", result);
             Assert.Equal(message, Crypt.AtbashTransform(result));
         }
     }
