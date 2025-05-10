@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("vigenere.Tests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1769ef93e63f4825bfc77be4e1f9a525d53ac655")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4c56bb07d7a4f61cd68e9cf7584b5915a37bb24a")]
 [assembly: System.Reflection.AssemblyProductAttribute("vigenere.Tests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("vigenere.Tests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

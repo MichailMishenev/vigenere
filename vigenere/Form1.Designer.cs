@@ -56,7 +56,7 @@
             this.label1.Size = new System.Drawing.Size(232, 42);
             this.label1.TabIndex = 0;
             this.label1.Text = "Поле ввода:";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
+            //this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // txtMessage
             // 
@@ -68,7 +68,7 @@
             this.txtMessage.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtMessage.Size = new System.Drawing.Size(398, 94);
             this.txtMessage.TabIndex = 1;
-            this.txtMessage.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            //this.txtMessage.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // btnEncrypt
             // 
@@ -99,7 +99,7 @@
             this.txtKey.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtKey.Size = new System.Drawing.Size(398, 80);
             this.txtKey.TabIndex = 9;
-            this.txtKey.TextChanged += new System.EventHandler(this.textBox4_TextChanged);
+            //this.txtKey.TextChanged += new System.EventHandler(this.textBox4_TextChanged);
             // 
             // label4
             // 
@@ -112,7 +112,7 @@
             this.label4.Size = new System.Drawing.Size(122, 42);
             this.label4.TabIndex = 8;
             this.label4.Text = "Ключ:";
-            this.label4.Click += new System.EventHandler(this.label4_Click);
+            //this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // btnDecrypt
             // 
@@ -145,7 +145,7 @@
             this.txtResult.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtResult.Size = new System.Drawing.Size(398, 96);
             this.txtResult.TabIndex = 11;
-            this.txtResult.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
+            //this.txtResult.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
             // label2
             // 
@@ -158,7 +158,7 @@
             this.label2.Size = new System.Drawing.Size(207, 42);
             this.label2.TabIndex = 12;
             this.label2.Text = "Результат:";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
+            //this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // tableLayoutPanel1
             // 
@@ -269,7 +269,7 @@
             this.Name = "Form1";
             this.Text = "Шифровальщик";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.Load += new System.EventHandler(this.Form1_Load);
+            //this.Load += new System.EventHandler(this.Form1_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);

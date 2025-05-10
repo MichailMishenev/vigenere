@@ -12,6 +12,12 @@ namespace vigenere
         private static readonly char[] LatinUpper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray();
         private static readonly char[] CyrillicLower = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя".ToCharArray();
         private static readonly char[] CyrillicUpper = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ".ToCharArray();
+        
+        /// <summary>
+        /// Gets the shift of a character for the Vigenere cypher.
+        /// </summary>
+        /// <param name="keyChar">Character.</param>
+        /// <returns>Shift as integer</returns>
         private static int GetShift(char keyChar)
         {
             int shift = 0;
@@ -34,6 +40,13 @@ namespace vigenere
             return shift;
         }
 
+        /// <summary>
+        /// Encrypts text with the vigenere cypher.
+        /// </summary>
+        /// <param name="text">Text</param>
+        /// <param name="key">Encryption key</param>
+        /// <returns>Encrypted text.</returns>
+        /// <exception cref="ArgumentException"></exception>
         public static string VigenereEncrypt(string text, string key)
         {
             if (string.IsNullOrEmpty(key))
@@ -88,6 +101,13 @@ namespace vigenere
             return result.ToString();
         }
 
+        /// <summary>
+        /// Decrypts text with the vigenere cypher.
+        /// </summary>
+        /// <param name="text">Text</param>
+        /// <param name="key">Decryption key</param>
+        /// <returns>Decrypted text.</returns>
+        /// <exception cref="ArgumentException"></exception>
         public static string VigenereDecrypt(string text, string key)
         {
             if (string.IsNullOrEmpty(key))
@@ -142,16 +162,34 @@ namespace vigenere
             return result.ToString();
         }
 
+        /// <summary>
+        /// Encrypts text with the Caesar cypher.
+        /// </summary>
+        /// <param name="input">Text</param>
+        /// <param name="shift">Shift</param>
+        /// <returns>Encrypted text</returns>
         public static string CaesarEncrypt(string input, int shift)
         {
             return Transform(input, shift);
         }
 
+        /// <summary>
+        /// Decrypts text with the Caesar cypher.
+        /// </summary>
+        /// <param name="input">Text</param>
+        /// <param name="shift">Shift</param>
+        /// <returns>Decrypted text</returns>
         public static string CaesarDecrypt(string input, int shift)
         {
             return Transform(input, -shift);
         }
 
+        /// <summary>
+        /// Transforms text according to a shift for the Caesar cypher.
+        /// </summary>
+        /// <param name="input">Text</param>
+        /// <param name="shift">Shift</param>
+        /// <returns>Shifted text</returns>
         private static string Transform(string input, int shift)
         {
             var result = new System.Text.StringBuilder();
@@ -185,6 +223,11 @@ namespace vigenere
             return result.ToString();
         }
 
+        /// <summary>
+        /// Gets the alphabet base of a character for the Caesar cypher
+        /// </summary>
+        /// <param name="ch">Character</param>
+        /// <returns>Base as character</returns>
         private static char GetAlphabetBase(char ch)
         {
             if (ch >= 'A' && ch <= 'Z') return 'A';
@@ -194,6 +237,11 @@ namespace vigenere
             return '\0'; // unsupported
         }
 
+        /// <summary>
+        /// Gets the alphabet size of a character for the Caesar cypher
+        /// </summary>
+        /// <param name="ch">Character</param>
+        /// <returns>Alphabet size as int</returns>
         private static int GetAlphabetSize(char ch)
         {
             if ((ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z')) return 26;
@@ -201,6 +249,11 @@ namespace vigenere
             return 0;
         }
 
+        /// <summary>
+        /// Transforms text with the Atbash cypher.
+        /// </summary>
+        /// <param name="input">Text</param>
+        /// <returns>Transformed text.</returns>
         public static string AtbashTransform(string input)
         {
             var result = new System.Text.StringBuilder();
@@ -221,6 +274,11 @@ namespace vigenere
             return result.ToString();
         }
 
+        /// <summary>
+        /// Transforms a character for the Atbash cypher.
+        /// </summary>
+        /// <param name="ch">Character.</param>
+        /// <returns>Transformed character.</returns>
         private static char TransformChar(char ch)
         {
             if (ch >= 'A' && ch <= 'Z') return (char)('Z' - (ch - 'A'));
@@ -230,6 +288,5 @@ namespace vigenere
 
             return ch; // unhandled characters
         }
-
     }
 }

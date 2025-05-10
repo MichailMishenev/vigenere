@@ -11,6 +11,7 @@
             Assert.Equal("Ртлгжх! Igomq!", result);
             Assert.Equal(message, Crypt.VigenereDecrypt(result, key));
         }
+
         [Fact]
         public void CaesarTest()
         {
@@ -20,6 +21,7 @@
             Assert.Equal("Тулеих! Khoor!", result);
             Assert.Equal(message, Crypt.CaesarDecrypt(result, shift));
         }
+
         [Fact]
         public void AtbashTest()
         {

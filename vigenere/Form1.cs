@@ -14,8 +14,11 @@ namespace vigenere
 {
     public partial class Form1 : Form
     {
-        public string cypherMode = "vigenere"; 
+        public string cypherMode = "vigenere";
 
+        /// <summary>
+        /// Initializes the form with double buffering.
+        /// </summary>
         public Form1()
         {
             InitializeComponent();
@@ -34,7 +37,11 @@ namespace vigenere
                 .SetValue(tableLayoutPanel1, true, null);
         }
 
-
+        /// <summary>
+        /// Encrypts the message.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnEncrypt_Click(object sender, EventArgs e)
         {
             string message = txtMessage.Text;
@@ -61,6 +68,11 @@ namespace vigenere
             }
         }
 
+        /// <summary>
+        /// Decrypts the message.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnDecrypt_Click(object sender, EventArgs e)
         {
             string message = txtMessage.Text;
@@ -87,43 +99,11 @@ namespace vigenere
             }
         }
 
-        
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label4_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox4_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
-
+        /// <summary>
+        /// Loads a message from a text file.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnLoadFile_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -135,7 +115,7 @@ namespace vigenere
                 try
                 {
                     string fileContent = File.ReadAllText(openFileDialog.FileName);
-                    txtMessage.Text = fileContent; 
+                    txtMessage.Text = fileContent;
                 }
                 catch (Exception ex)
                 {
@@ -144,6 +124,11 @@ namespace vigenere
             }
         }
 
+        /// <summary>
+        /// Saves the result to a text file.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnSaveFile_Click(object sender, EventArgs e)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
@@ -155,7 +140,7 @@ namespace vigenere
             {
                 try
                 {
-                    File.WriteAllText(saveFileDialog.FileName, txtResult.Text); 
+                    File.WriteAllText(saveFileDialog.FileName, txtResult.Text);
                     MessageBox.Show("Файл успешно сохранен!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch (Exception ex)
@@ -165,6 +150,11 @@ namespace vigenere
             }
         }
 
+        /// <summary>
+        /// Brings up a guide for the selected cypher.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnGuide_Click(object sender, EventArgs e)
         {
             switch (cypherMode)
@@ -181,6 +171,11 @@ namespace vigenere
             }
         }
 
+        /// <summary>
+        /// Changes the currently selected cypher.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             switch (comboBox1.Text)
