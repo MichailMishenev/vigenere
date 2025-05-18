@@ -12,7 +12,11 @@ namespace vigenere
         private static readonly char[] LatinUpper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray();
         private static readonly char[] CyrillicLower = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя".ToCharArray();
         private static readonly char[] CyrillicUpper = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ".ToCharArray();
-        
+        private const string UpperLatin = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        private const string LowerLatin = "abcdefghijklmnopqrstuvwxyz";
+        private const string UpperCyrillic = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ";
+        private const string LowerCyrillic = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя";
+
         /// <summary>
         /// Gets the shift of a character for the Vigenere cypher.
         /// </summary>
@@ -192,61 +196,47 @@ namespace vigenere
         /// <returns>Shifted text</returns>
         private static string Transform(string input, int shift)
         {
-            var result = new System.Text.StringBuilder();
+            if (input == null) return null;
+            var sb = new StringBuilder(input.Length);
+
+            // Normalize shifts to avoid huge values:
+            int shiftLatin = ((shift % 26) + 26) % 26;
+            int shiftCyrillic = ((shift % 33) + 33) % 33;
 
             foreach (char ch in input)
             {
-                if (char.IsLetter(ch))
+                if (UpperLatin.IndexOf(ch) >= 0)
                 {
-                    bool isUpper = char.IsUpper(ch);
-                    char baseChar = GetAlphabetBase(ch);
-
-                    int alphabetSize = GetAlphabetSize(ch);
-                    if (baseChar != '\0')
-                    {
-                        int offset = ch - baseChar;
-                        int newOffset = (offset + shift + alphabetSize) % alphabetSize;
-                        char shiftedChar = (char)(baseChar + newOffset);
-                        result.Append(shiftedChar);
-                    }
-                    else
-                    {
-                        result.Append(ch); // unrecognized alphabet
-                    }
+                    int idx = UpperLatin.IndexOf(ch);
+                    int newIdx = (idx + shiftLatin) % 26;
+                    sb.Append(UpperLatin[newIdx]);
+                }
+                else if (LowerLatin.IndexOf(ch) >= 0)
+                {
+                    int idx = LowerLatin.IndexOf(ch);
+                    int newIdx = (idx + shiftLatin) % 26;
+                    sb.Append(LowerLatin[newIdx]);
+                }
+                else if (UpperCyrillic.IndexOf(ch) >= 0)
+                {
+                    int idx = UpperCyrillic.IndexOf(ch);
+                    int newIdx = (idx + shiftCyrillic) % 33;
+                    sb.Append(UpperCyrillic[newIdx]);
+                }
+                else if (LowerCyrillic.IndexOf(ch) >= 0)
+                {
+                    int idx = LowerCyrillic.IndexOf(ch);
+                    int newIdx = (idx + shiftCyrillic) % 33;
+                    sb.Append(LowerCyrillic[newIdx]);
                 }
                 else
                 {
-                    result.Append(ch); // non-letter characters remain unchanged
+                    // Any other character (digits, punctuation, whitespace) remains as is
+                    sb.Append(ch);
                 }
             }
 
-            return result.ToString();
-        }
-
-        /// <summary>
-        /// Gets the alphabet base of a character for the Caesar cypher
-        /// </summary>
-        /// <param name="ch">Character</param>
-        /// <returns>Base as character</returns>
-        private static char GetAlphabetBase(char ch)
-        {
-            if (ch >= 'A' && ch <= 'Z') return 'A';
-            if (ch >= 'a' && ch <= 'z') return 'a';
-            if (ch >= 'А' && ch <= 'Я') return 'А';
-            if (ch >= 'а' && ch <= 'я') return 'а';
-            return '\0'; // unsupported
-        }
-
-        /// <summary>
-        /// Gets the alphabet size of a character for the Caesar cypher
-        /// </summary>
-        /// <param name="ch">Character</param>
-        /// <returns>Alphabet size as int</returns>
-        private static int GetAlphabetSize(char ch)
-        {
-            if ((ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z')) return 26;
-            if ((ch >= 'А' && ch <= 'Я') || (ch >= 'а' && ch <= 'я')) return 32;
-            return 0;
+            return sb.ToString();
         }
 
         /// <summary>
@@ -256,37 +246,42 @@ namespace vigenere
         /// <returns>Transformed text.</returns>
         public static string AtbashTransform(string input)
         {
-            var result = new System.Text.StringBuilder();
+            if (input == null) return null;
+            var sb = new StringBuilder(input.Length);
 
             foreach (char ch in input)
             {
-                if (char.IsLetter(ch))
+                if (UpperLatin.IndexOf(ch) >= 0)
                 {
-                    char transformed = TransformChar(ch);
-                    result.Append(transformed);
+                    int idx = UpperLatin.IndexOf(ch);
+                    int mirrorIdx = (UpperLatin.Length - 1) - idx; // 25 - idx
+                    sb.Append(UpperLatin[mirrorIdx]);
+                }
+                else if (LowerLatin.IndexOf(ch) >= 0)
+                {
+                    int idx = LowerLatin.IndexOf(ch);
+                    int mirrorIdx = (LowerLatin.Length - 1) - idx; // 25 - idx
+                    sb.Append(LowerLatin[mirrorIdx]);
+                }
+                else if (UpperCyrillic.IndexOf(ch) >= 0)
+                {
+                    int idx = UpperCyrillic.IndexOf(ch);
+                    int mirrorIdx = (UpperCyrillic.Length - 1) - idx; // 32 - idx
+                    sb.Append(UpperCyrillic[mirrorIdx]);
+                }
+                else if (LowerCyrillic.IndexOf(ch) >= 0)
+                {
+                    int idx = LowerCyrillic.IndexOf(ch);
+                    int mirrorIdx = (LowerCyrillic.Length - 1) - idx; // 32 - idx
+                    sb.Append(LowerCyrillic[mirrorIdx]);
                 }
                 else
                 {
-                    result.Append(ch);
+                    sb.Append(ch);
                 }
             }
 
-            return result.ToString();
-        }
-
-        /// <summary>
-        /// Transforms a character for the Atbash cypher.
-        /// </summary>
-        /// <param name="ch">Character.</param>
-        /// <returns>Transformed character.</returns>
-        private static char TransformChar(char ch)
-        {
-            if (ch >= 'A' && ch <= 'Z') return (char)('Z' - (ch - 'A'));
-            if (ch >= 'a' && ch <= 'z') return (char)('z' - (ch - 'a'));
-            if (ch >= 'А' && ch <= 'Я') return (char)('Я' - (ch - 'А'));
-            if (ch >= 'а' && ch <= 'я') return (char)('я' - (ch - 'а'));
-
-            return ch; // unhandled characters
+            return sb.ToString();
         }
     }
 }

@@ -1,11 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "+0izBEaE/J0=",
+  "dgSpecHash": "aSEdx3n9DSI=",
   "success": true,
   "projectFilePath": "C:\\Users\\user\\source\\repos\\vigenere\\vigenere\\vigenere.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\user\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
-    "C:\\Users\\user\\.nuget\\packages\\stylecop.analyzers\\1.1.118\\stylecop.analyzers.1.1.118.nupkg.sha512",
     "C:\\Users\\user\\.nuget\\packages\\system.data.datasetextensions\\4.5.0\\system.data.datasetextensions.4.5.0.nupkg.sha512"
   ],
   "logs": []
